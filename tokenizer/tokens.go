@@ -28,10 +28,10 @@ const (
 	TagRefClose = "</ref>"
 	TagBreak    = "<br>"
 
-	// text
-	TextWithEscapes = `[^{}\[\]\|='<>\*]*`
-
 	// format
 	Italic = `''`
 	Bold   = `'''`
+
+	// text
+	TextWithEscapes = `[^{}\[\]\|='<>\*]*`
 )

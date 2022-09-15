@@ -1,0 +1,39 @@
+[
+    {
+        "en-label":"company",
+        "vi-label":"tóm tắt về công ty",
+        "fields": [
+            {"id":0, "en":"name", "vi":"tên", "displayed-text":"tên công ty","enabled":false},
+            {"id":10, "en":"logo", "vi":"logo", "displayed-text":"","enabled":false},
+            {"id":20, "en":"image", "vi":"logo", "displayed-text":"", "enabled":false},
+            {"id":30, "en":"type", "vi":"loại", "displayed-text":"loại hình", "enabled":true},
+            {"id":40, "en":"traded_as", "vi":"", "displayed-text":"mã niêm yết", "enabled":true},
+            {"id":50, "en":"foundation", "vi":"", "displayed-text":"thành lập", "enabled":true},
+            {"id":60, "en":"founder", "vi":"", "displayed-text":"người sáng lập", "enabled":true},
+            {"id":70, "en":"location_city", "vi":"trụ sở", "displayed-text":"trụ sở chính", "enabled":true},
+            {"id":80, "en":"location_country", "vi":"trụ sở", "displayed-text":"trụ sở chính", "enabled":true},
+            {"id":90, "en":"hq_location", "vi":"trụ sở", "displayed-text":"trụ sở chính", "enabled":true},
+            {"id":100, "en":"num_locations", "vi":"số vị trí", "displayed-text":"số lượng trụ sở", "enabled":true},
+            {"id":110, "en":"num_locations_year", "vi":"", "displayed-text":"", "enabled":true},
+            {"id":120, "en":"area_served", "vi":"", "displayed-text":"khu vực hoạt động", "enabled":true},
+            {"id":130, "en":"key_people", "vi":"thành viên chủ chốt", "displayed-text":"thành viên chủ chốt", "enabled":true},
+            {"id":140, "en":"products", "vi":"sản phẩm", "displayed-text":"sản phẩm", "enabled":true},
+            {"id":150, "en":"industry", "vi":"ngành", "displayed-text":"ngành nghề", "enabled":true},
+            {"id":160, "en":"services", "vi":"dịch vụ", "displayed-text":"dịch vụ", "enabled":true},
+            {"id":170, "en":"revenue", "vi":"doanh thu", "displayed-text":"doanh thu", "enabled":true},
+            {"id":180, "en":"revenue_year", "vi":"", "displayed-text":"", "enabled":true},
+            {"id":190, "en":"operating_income", "vi":"lợi nhuận trước thuế và lãi", "displayed-text":"lợi nhuận kinh doanh", "enabled":true},
+            {"id":200, "en":"income_year", "vi":"", "displayed-text":"", "enabled":true},
+            {"id":210, "en":"net_income", "vi":"lãi thực", "displayed-text":"lợi nhuận ròng", "enabled":true},
+            {"id":220, "en":"net_income_year", "vi":"", "displayed-text":"", "enabled":true},
+            {"id":230, "en":"assets", "vi":"tài sản", "displayed-text":"tổng tài sản", "enabled":true},
+            {"id":240, "en":"assets_year", "vi":"", "displayed-text":"", "enabled":true},
+            {"id":250, "en":"equity", "vi":"", "displayed-text":"tổng vốn chủ sở hữu", "enabled":true},
+            {"id":260, "en":"equity_year", "vi":"", "displayed-text":"", "enabled":true},
+            {"id":270, "en":"num_employees", "vi":"số nhân viên", "displayed-text":"số nhân viên", "enabled":true},
+            {"id":280, "en":"num_employees_year", "vi":"", "displayed-text":"", "enabled":true},
+            {"id":290, "en":"subsid", "vi":"công ty con", "displayed-text":"công ty con", "enabled":true},
+            {"id":300, "en":"website", "vi":"trang chủ", "displayed-text":"", "enabled":true}
+        ]
+    }
+]

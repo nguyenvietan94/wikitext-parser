@@ -11,7 +11,7 @@ var (
 	// ''' is placed ahead of ''
 	delimiters = []string{
 		TemplateParamOpen, TemplateParamClose, TemplateOpen, TemplateClose, WikilinkOpen, WikilinkClose,
-		TemplateParamSeparator, TemplateParamEquals, TemplateAsteriskInList, TagRefOpen, TagRefClose, TagBreak, Bold, Italic, TextWithEscapes,
+		TemplateParamSeparator, TemplateParamEquals, TemplateAsteriskInList, TagRefOpen, TagRefClose, TagBreak, CommentStart, CommentEnd, Bold, Italic, TextWithEscapes,
 	}
 	delimiterNames = map[string]string{
 		"{{":     "templateOpen",

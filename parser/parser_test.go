@@ -7,16 +7,6 @@ import (
 )
 
 func TestParser(t *testing.T) {
-	// data := `{{Thông tin tiểu sử bóng đá
-	// 	| caption = Messi trong màu áo [[đội tuyển bóng đá quốc gia Argentina|Argentina]] tại [[World Cup 2018]]
-	// 	| fullname = Lionel Andrés Messi<ref>{{cite web |url=https://www.fifadata.com/documents/FWC/2018/pdf/FWC_2018_SQUADLISTS.PDF |title=FIFA World Cup Russia 2018: List of Players: Argentina |work=FIFA |page=1 |date=15 July 2018 |archive-url=https://web.archive.org/web/20190611000407/https://www.fifadata.com/documents/FWC/2018/pdf/FWC_2018_SQUADLISTS.PDF |archive-date=11 June 2019}}</ref>
-	// 	| birth_date = {{birth date and age|1987|6|24|df=y}}<ref>{{cite web |url=https://tournament.fifadata.com/documents/FWC/2018/pdf/FWC_2018_SQUADLISTS.PDF |title=2018 FIFA World Cup Russia: List of players: Argentina |work=FIFA |page=1 |date=15 July 2018 |access-date=13 October 2018 |archive-url=https://web.archive.org/web/20180619164139/https://tournament.fifadata.com/documents/FWC/2018/pdf/FWC_2018_SQUADLISTS.PDF |archive-date=19 June 2018 |url-status=dead}}</ref>
-	// 	| height = {{height|m=1,69}}<ref>{{Cite web|title=Lionel Messi|url=https://en.psg.fr/teams/first-team/squad/lionel-messi|access-date=23 August 2021|website=PSG}}</ref>
-	// 	| birth_place = [[Rosario]], [[Santa Fe]], Argentina
-	// 	}}`
-
-	// data := `{{Hộp thông tin tóm tắt về công ty|name=Binance|logo=Binance logo.svg|foundation=2017|founders={{unbulleted list|[[Changpeng Zhao]]|Yi He}}|products=[[Cryptocurrency exchange]]|location_country=[[Malta]]<ref>{{chú thích web |title=Why world leader crypto exchange Binance moved to Malta |url=https://www.maltatoday.com.mt/business/business_news/93170/why_world_leader_crypto_exchange_binance_moved_to_malta#.XTGugOhKhhE |website=[[Malta Today]] |access-date =ngày 19 tháng 7 năm 2019}}</ref>|key_people=Changpeng Zhao ([[CEO]])|homepage={{URL|www.binance.com}}}}`
-
 	data := `{{Infobox person
 			| name = Taylor Swift
 			| image = 191125 Taylor Swift at the 2019 American Music Awards (cropped).png
@@ -97,5 +87,109 @@ func TestSimple(t *testing.T) {
 	p := NewParser(data)
 	err := p.parse()
 	assert.Equal(t, err, nil)
-	p.printTokens()
+}
+
+func TestCompanyTemplate(t *testing.T) {
+	samples := map[string]map[string]string{
+		`{{Hộp thông tin tóm tắt về công ty
+			| name = Apple Inc.
+			| logo = [[Tập tin:Apple logo black.svg||80px|Logo của Apple Inc.]]
+			| image = Apple park cupertino 2019.jpg
+			| image_size = 260px
+			| image_caption = Trụ sở Apple ở [[Cupertino, California]]
+			| er = [[Công ty đại chúng]]
+			| traded_as = {{nasdaq|AAPL}}, {{lse|0HDZ}}, {{FWB|APC}}
+			| predecesốsor = 
+			| foundation = {{Start date and age|1976|04|01}} ([[Cupertino, California|Cupertino]], [[California]], [[Hoa Kỳ|Mỹ]])
+			| founder = [[Steve Jobs]], [[Steve Wozniak]], [[Ronald Wayne]]<ref name=AppleConf>{{chú thích sách| last = Linzmayer| first = Ronald W.| title = Apple Confidential: The Real Story of Apple Computer, Inc.| publisher = No Starch Press| year = 1999| url = http://extras.denverpost.com/books/chap0411h.htm| access-date = ngày 1 tháng 6 năm 2018 | access-date = ngày 1 tháng 6 năm 2018}}</ref>
+			| location_city = [[Cupertino, California]]
+			| location_country = Mỹ
+			| num_locations = 510 cửa hàng bán lẻ
+			| num_locations_year = 2020
+			| area_served = Toàn thế giới
+			| key_people = [[Tim Cook]] ([[Tổng giám đốc điều hành|CEO]])
+			[[Arthur D. Levinson]] ([[Chủ tịch hội đồng quản trị]])
+			[[Jeff Williams]] ([[Giám đốc điều hành|COO]])
+			| industry = [[Phần cứng|Phần cứng máy tính]]{{·}} [[Phần mềm|Phần mềm máy tính]], phụ kiện, thiết bị di động
+			| products =
+			{{Collapsible list
+			 |framestyle=border:none; padding:0;
+			 |title=
+			 |1=<li>[[Macintosh|Mac]]
+			 |2=<li>[[iPod]]
+			 |3=<li>[[iPhone]]
+			 |4=<li>[[iPad]]
+			 |5=<li>[[Apple Watch]]
+			 |6=<li>[[Apple TV]]
+			 |7=<li>[[macOS]]
+			 |8=<li>[[iOS(Apple)|iOS]] |9=<li>[[iPadOS]]
+			 |10=<li>[[watchOS]]
+			 |11=<li>[[tvOS]]
+			}}
+			| services =
+			{{Collapsible list
+			 |framestyle=border:none; padding:0;
+			 |title=
+			 |1=<li>[[Apple Arcade]]
+			 |2=<li>[[Apple Card]]
+			 |3=<li>[[Apple Music]]
+			 |4=<li>[[Apple News+]]
+			 |5=<li>[[Apple TV+]]
+			 |6=<li>[[Apple Store (online)|Apple Store online]]
+			 |7=<li>[[App Store (iOS)|App Store]]
+			 |8=<li>[[iTunes|iTunes Store]]
+			 |9=<li>[[Mac App Store]]
+			 |10=<li>[[iBookstore|iBooks]]
+			 |11=<li>[[iCloud]]
+			 |12=<li>[[Apple Pay]]
+			 |13=<li>[[iMessage]]
+			 |14=<li>[[FaceTime]]
+			}}
+			| revenue = {{increase}} {{US$|274.515&nbsp;tỉ|link=yes}}<ref name="SEC filing">{{chú thích web|url=https://s2.q4cdn.com/470004039/files/doc_financials/2020/q4/FY20_Q4_Consolidated_Financial_Statements.pdf|date=30 tháng 10 năm 2020}}</ref>
+			| revenue_year = 2020
+			| operating_income = {{increase}} {{US$|66.288&nbsp;tỉ}}<ref name="SEC filing"/>
+			| income_year = 2020
+			| net_income = {{increase}} {{US$|57.411&nbsp;tỉ}}<ref name="SEC filing"/>
+			| net_income_year = 2020
+			| assets = {{decrease}} {{US$|323.888&nbsp;tỉ}}<ref name="SEC filing"/>
+			| assets_year = 2020
+			| equity = {{decrease}} {{US$|65.339&nbsp;tỉ}}<ref name="SEC filing"/>
+			| equity_year = 2020
+			| num_employees = 147,000<ref name="SEC filing"/>
+			| num_employees_year = 2020
+			| divisions = 
+			| subsid = [[Shazam (company)|Shazam]], [[FileMaker Inc.]], [[Anobit]], [[Braeburn Capital]], [[Beats Electronics]]
+			| website = {{URL|apple.com}}
+			| intl = yes
+			}}`: {
+			"loại hình":   "Công ty đại chúng",
+			"mã niêm yết": "NASDAQ:AAPL, LSE:0HDZ, FWB:APC",
+			"ngành nghề": "	Phần cứng máy tính · Phần mềm máy tính, phụ kiện, thiết bị di động",
+			"thành lập":            "1 tháng 4 năm 1976 (Cupertino, California, Mỹ)",
+			"người sáng lập":       "Steve Jobs, Steve Wozniak, Ronald Wayne",
+			"trụ sở chính":         "Cupertino, California, Mỹ",
+			"số lượng trụ sở":      "510 cửa hàng bán lẻ (2020)",
+			"khu vực hoạt động":    "Toàn thế giới",
+			"thành viên chủ chốt":  "Tim Cook (CEO)·Arthur D. Levinson (Chủ tịch hội đồng quản trị)·Jeff Williams (COO)",
+			"sản phẩm":             "Mac·iPod·iPhone·iPad·Apple Watch·Apple TV·macOS·iOS·iPadOS·watchOS·tvOS",
+			"dịch vụ":              "Apple Arcade · Apple Card · Apple Music · Apple News+ · Apple TV+ · Apple Store online · App Store · iTunes Store · Mac App Store · iBooks · iCloud · Apple Pay · iMessag · FaceTime",
+			"doanh thu":            "274.515 tỉ đô la Mỹ (2020)",
+			"lợi nhuận kinh doanh": "66.288 tỉ đô la Mỹ (2020)",
+			"lợi nhuận ròng":       "57.411 tỉ đô la Mỹ (2020)",
+			"tổng tài sản":         "323.888 tỉ đô la Mỹ (2020)",
+			"tổng vốn chủ sở hữu":  "65.339 tỉ đô la Mỹ (2020)",
+			"số nhân viên":         "147,000 (2020)",
+			"công ty con":          "Shazam·FileMaker Inc.·Anobit·Braeburn Capital·Beats Electronics",
+			"website":              "apple.com",
+		},
+	}
+	for data, expected := range samples {
+		p := NewParser(data)
+		err := p.parse()
+		assert.Equal(t, err, nil)
+		params := p.getParams()
+		for key, val := range expected {
+			assert.Equal(t, params[key], val)
+		}
+	}
 }

@@ -15,10 +15,11 @@ type Parser struct {
 	cTokenIdx int
 	root      *tree.Wikicode
 	handlers  map[string]fn
+	params    map[string]string
 }
 
 func NewParser(data string) *Parser {
-	p := &Parser{data: data}
+	p := &Parser{data: preprocessText(data)}
 	p.root = tree.NewWikicode()
 	p.handlers = map[string]fn{
 		"templateOpen":  p.handleTemplate,
@@ -32,6 +33,7 @@ func NewParser(data string) *Parser {
 		"commentEnd":    p.handleComment,
 		"break":         p.handleTagBreak,
 	}
+	p.params = make(map[string]string)
 	return p
 }
 
@@ -56,6 +58,10 @@ func (p *Parser) tokenize() error {
 	var err error
 	p.tokens, err = tokenizer.Tokenize(p.data)
 	return err
+}
+
+func (p *Parser) getParams() map[string]string {
+	return p.params
 }
 
 func (p *Parser) printTokens() {
