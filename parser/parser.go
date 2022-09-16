@@ -3,11 +3,18 @@ package parser
 import (
 	"fmt"
 	"strconv"
+	"wikitext-parser/templates"
 	"wikitext-parser/tokenizer"
 	"wikitext-parser/tree"
+	"wikitext-parser/utils"
 )
 
 type fn func() tree.Elem
+
+type fieldValue struct {
+	id    int
+	value string
+}
 
 type Parser struct {
 	data      string
@@ -15,11 +22,11 @@ type Parser struct {
 	cTokenIdx int
 	root      *tree.Wikicode
 	handlers  map[string]fn
-	params    map[string]string
+	params    map[string]*fieldValue
 }
 
 func NewParser(data string) *Parser {
-	p := &Parser{data: preprocessText(data)}
+	p := &Parser{data: utils.PreprocessText(data)}
 	p.root = tree.NewWikicode()
 	p.handlers = map[string]fn{
 		"templateOpen":  p.handleTemplate,
@@ -33,7 +40,7 @@ func NewParser(data string) *Parser {
 		"commentEnd":    p.handleComment,
 		"break":         p.handleTagBreak,
 	}
-	p.params = make(map[string]string)
+	p.params = make(map[string]*fieldValue)
 	return p
 }
 
@@ -51,7 +58,8 @@ func (p *Parser) parse() error {
 			}
 		}
 	}
-	return nil
+	err = p.processParams()
+	return err
 }
 
 func (p *Parser) tokenize() error {
@@ -60,7 +68,27 @@ func (p *Parser) tokenize() error {
 	return err
 }
 
-func (p *Parser) getParams() map[string]string {
+// TODO: read template format from templates.json
+func (p *Parser) processParams() error {
+	for _, elem := range p.root.GetElemList() {
+		if template, ok := elem.(*tree.Template); ok {
+			if len(template.Name) > 0 {
+				expectedFields := templates.GetFieldsFromTemplate(template.Name)
+				for _, field := range expectedFields {
+					if text, err := template.GetPlainTextByField(field.En); err == nil {
+						p.params[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
+					}
+					if text, err := template.GetPlainTextByField(field.Vi); err == nil {
+						p.params[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func (p *Parser) getParams() map[string]*fieldValue {
 	return p.params
 }
 
@@ -69,6 +97,8 @@ func (p *Parser) printTokens() {
 		fmt.Println(token.Token)
 	}
 }
+
+// --
 
 func (p *Parser) handleTemplate() tree.Elem {
 	template := tree.NewTemplate()
@@ -86,7 +116,7 @@ func (p *Parser) handleTemplate() tree.Elem {
 			prevToken = p.tokens[p.cTokenIdx-1]
 		}
 		if prevToken != nil && prevToken.Token == tokenizer.TemplateOpen { // {{ name
-			template.Name = token.Token
+			template.Name = utils.PreprocessTemplateName(token.Token)
 			continue
 		}
 		if token.Token == tokenizer.TemplateParamSeparator || token.Token == tokenizer.TemplateAsteriskInList { // |, *
@@ -141,17 +171,24 @@ func (p *Parser) handleText() tree.Elem {
 
 func (p *Parser) handleWikilink() tree.Elem {
 	var wikilink *tree.Wikilink
-	if p.tokens[p.cTokenIdx].Token == tokenizer.WikilinkOpen { // [[wikiPage]]
-		if p.cTokenIdx+2 < len(p.tokens) && p.tokens[p.cTokenIdx+2].Token == tokenizer.WikilinkClose {
+	if p.tokens[p.cTokenIdx].Token == tokenizer.WikilinkOpen { // [[
+		if p.cTokenIdx+2 < len(p.tokens) && p.tokens[p.cTokenIdx+2].Token == tokenizer.WikilinkClose { // [[wikiPage]]
 			text := p.tokens[p.cTokenIdx+1].Token
 			p.cTokenIdx += 2
 			wikilink = tree.NewWikilink(text, "")
-		} else if p.cTokenIdx+2 < len(p.tokens) && p.tokens[p.cTokenIdx+2].Token == tokenizer.WikilinkSeparator { // [[wikiPage|displayedText]]
+		} else if p.cTokenIdx+4 < len(p.tokens) && p.tokens[p.cTokenIdx+4].Token == tokenizer.WikilinkClose { // [[wikiPage|displayedText]]
 			if p.cTokenIdx+3 < len(p.tokens) {
 				wikiPage := p.tokens[p.cTokenIdx+1].Token
 				displayedText := p.tokens[p.cTokenIdx+3].Token
 				p.cTokenIdx += 4
-				return tree.NewWikilink(wikiPage, displayedText)
+				wikilink = tree.NewWikilink(wikiPage, displayedText)
+			}
+		} else {
+			if p.cTokenIdx+1 < len(p.tokens) {
+				wikiPage := p.tokens[p.cTokenIdx+1].Token
+				wikilink = tree.NewWikilink(wikiPage, "")
+			}
+			for ; p.cTokenIdx < len(p.tokens) && p.tokens[p.cTokenIdx].Token != tokenizer.WikilinkClose; p.cTokenIdx++ {
 			}
 		}
 	}

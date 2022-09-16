@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/magiconair/properties/assert"
@@ -99,7 +100,7 @@ func TestCompanyTemplate(t *testing.T) {
 			| image_caption = Trụ sở Apple ở [[Cupertino, California]]
 			| er = [[Công ty đại chúng]]
 			| traded_as = {{nasdaq|AAPL}}, {{lse|0HDZ}}, {{FWB|APC}}
-			| predecesốsor = 
+			| predecessor = 
 			| foundation = {{Start date and age|1976|04|01}} ([[Cupertino, California|Cupertino]], [[California]], [[Hoa Kỳ|Mỹ]])
 			| founder = [[Steve Jobs]], [[Steve Wozniak]], [[Ronald Wayne]]<ref name=AppleConf>{{chú thích sách| last = Linzmayer| first = Ronald W.| title = Apple Confidential: The Real Story of Apple Computer, Inc.| publisher = No Starch Press| year = 1999| url = http://extras.denverpost.com/books/chap0411h.htm| access-date = ngày 1 tháng 6 năm 2018 | access-date = ngày 1 tháng 6 năm 2018}}</ref>
 			| location_city = [[Cupertino, California]]
@@ -162,6 +163,9 @@ func TestCompanyTemplate(t *testing.T) {
 			| website = {{URL|apple.com}}
 			| intl = yes
 			}}`: {
+			"tên công ty": "Apple Inc.",
+			"logo":        "Apple logo black.svg",
+			"image":       "Apple park cupertino 2019.jpg",
 			"loại hình":   "Công ty đại chúng",
 			"mã niêm yết": "NASDAQ:AAPL, LSE:0HDZ, FWB:APC",
 			"ngành nghề": "	Phần cứng máy tính · Phần mềm máy tính, phụ kiện, thiết bị di động",
@@ -187,9 +191,13 @@ func TestCompanyTemplate(t *testing.T) {
 		p := NewParser(data)
 		err := p.parse()
 		assert.Equal(t, err, nil)
+		p.printTokens() // TODO: remove
 		params := p.getParams()
 		for key, val := range expected {
-			assert.Equal(t, params[key], val)
+			assert.Equal(t, params[key] != nil, true, fmt.Sprintf("params[%s] is nil", key))
+			if params[key] != nil {
+				assert.Equal(t, params[key].value, val)
+			}
 		}
 	}
 }

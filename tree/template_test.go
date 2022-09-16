@@ -6,7 +6,7 @@ import (
 	"github.com/magiconair/properties/assert"
 )
 
-func TestGetPlainText(t *testing.T) {
+func TestTemplateGetPlainText(t *testing.T) {
 	samples := map[*Template]string{
 		// birth date and age
 		{

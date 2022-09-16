@@ -28,3 +28,7 @@ func (w *Wikicode) GetPlainText() (string, error) {
 func (w *Wikicode) AddItem(e Elem) {
 	w.list = append(w.list, e)
 }
+
+func (w *Wikicode) GetElemList() []Elem {
+	return w.list
+}

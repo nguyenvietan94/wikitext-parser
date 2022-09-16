@@ -69,6 +69,13 @@ func (t *Template) GetPlainText() (string, error) {
 	return "", fmt.Errorf("not supported template: %s", t.Name)
 }
 
+func (t *Template) GetPlainTextByField(field string) (string, error) {
+	if wikicode, ok := t.Params[field]; ok && wikicode != nil {
+		return wikicode.GetPlainText()
+	}
+	return "", fmt.Errorf("field=%s does not exists", field)
+}
+
 // ----- Birthdate -----
 
 // {{Birth-date and age|1941}} → 1941 (age 81)
