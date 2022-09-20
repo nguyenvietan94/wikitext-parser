@@ -1,5 +1,7 @@
 package tree
 
+import "strings"
+
 type Elem interface {
 	GetPlainText() (string, error)
 }
@@ -18,7 +20,10 @@ func (w *Wikicode) GetPlainText() (string, error) {
 	for _, elem := range w.list {
 		next, err := elem.GetPlainText()
 		if err != nil {
-			return "", err
+			continue
+		}
+		if len(out) > 0 && !strings.HasPrefix(next, ",") && !strings.HasPrefix(next, ")") && !strings.HasSuffix(out, "(") {
+			out += " "
 		}
 		out += next
 	}

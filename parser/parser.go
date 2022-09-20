@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"wikitext-parser/templates"
 	"wikitext-parser/tokenizer"
 	"wikitext-parser/tree"
@@ -22,7 +23,7 @@ type Parser struct {
 	cTokenIdx int
 	root      *tree.Wikicode
 	handlers  map[string]fn
-	params    map[string]*fieldValue
+	params    map[string]string
 }
 
 func NewParser(data string) *Parser {
@@ -40,7 +41,7 @@ func NewParser(data string) *Parser {
 		"commentEnd":    p.handleComment,
 		"break":         p.handleTagBreak,
 	}
-	p.params = make(map[string]*fieldValue)
+	p.params = make(map[string]string)
 	return p
 }
 
@@ -58,7 +59,7 @@ func (p *Parser) parse() error {
 			}
 		}
 	}
-	err = p.processParams()
+	err = p.convertTree2PlainText()
 	return err
 }
 
@@ -68,27 +69,71 @@ func (p *Parser) tokenize() error {
 	return err
 }
 
-// TODO: read template format from templates.json
-func (p *Parser) processParams() error {
-	for _, elem := range p.root.GetElemList() {
-		if template, ok := elem.(*tree.Template); ok {
-			if len(template.Name) > 0 {
-				expectedFields := templates.GetFieldsFromTemplate(template.Name)
-				for _, field := range expectedFields {
-					if text, err := template.GetPlainTextByField(field.En); err == nil {
-						p.params[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
+func (p *Parser) convertTree2PlainText() error {
+	elemList := p.root.GetElemList()
+	if len(elemList) != 1 {
+		return fmt.Errorf("only support element list of length 1, but length=%d found", len(elemList))
+	}
+	if template, ok := elemList[0].(*tree.Template); ok && template != nil {
+		p.params = template.GetParamsInPlainText()
+	}
+	return nil
+}
+
+// returns fields defined in templates.json if available
+func (p *Parser) getRequiredFields() (map[string]*fieldValue, error) {
+	elemList := p.root.GetElemList()
+	if len(elemList) != 1 {
+		return nil, fmt.Errorf("only support element list of length 1, but length=%d found", len(elemList))
+	}
+	p.mergeParams()
+	out := make(map[string]*fieldValue)
+	if template, ok := elemList[0].(*tree.Template); ok && template != nil {
+		if len(template.Name) > 0 {
+			expectedFields := templates.GetFieldsFromTemplate(template.Name)
+			for _, field := range expectedFields {
+				if field.Enabled {
+					if text, ok := p.params[field.En]; ok {
+						out[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
 					}
-					if text, err := template.GetPlainTextByField(field.Vi); err == nil {
-						p.params[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
+					if text, ok := p.params[field.Vi]; ok {
+						out[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
 					}
 				}
 			}
 		}
 	}
-	return nil
+	return out, nil
 }
 
-func (p *Parser) getParams() map[string]*fieldValue {
+func (p *Parser) merge(from, to string) {
+	var textFrom string
+	var ok1, ok2 bool
+	textFrom, ok1 = p.params[from]
+	_, ok2 = p.params[to]
+	if (!ok1 && !ok2) || textFrom == "" {
+		return
+	}
+	if strings.HasSuffix(from, "_year") {
+		textFrom = "(" + textFrom + ")"
+	} else {
+		textFrom = ", " + textFrom
+	}
+	p.params[to] += textFrom
+}
+
+func (p *Parser) mergeParams() {
+	p.merge("equity_year", "equity")
+	p.merge("income_year", "operating_income")
+	p.merge("revenue_year", "revenue")
+	p.merge("assets_year", "assets")
+	p.merge("num_locations_year", "num_locations")
+	p.merge("num_employees_year", "num_employees")
+	p.merge("net_income_year", "net_income")
+	p.merge("location_country", "location_city")
+}
+
+func (p *Parser) getParams() map[string]string {
 	return p.params
 }
 
@@ -157,7 +202,7 @@ func (p *Parser) handleTemplateParams() *tree.Wikicode {
 // skip reference tags
 func (p *Parser) handleReference() tree.Elem {
 	for ; p.cTokenIdx < len(p.tokens); p.cTokenIdx++ {
-		if p.tokens[p.cTokenIdx].Token == tokenizer.TagRefClose {
+		if p.tokens[p.cTokenIdx].Token == tokenizer.TagRefClose || p.tokens[p.cTokenIdx].Token == tokenizer.TagClose {
 			break
 		}
 	}

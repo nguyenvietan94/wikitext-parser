@@ -13,6 +13,7 @@ var (
 		"cm":          "cm",
 		"centimetres": "cm",
 		"centimeter":  "cm",
+		"us$":         "đô la Mỹ",
 	}
 )
 
@@ -39,15 +40,19 @@ func NewTemplate() *Template {
 		"ngày mất và tuổi":   nil,
 		"năm mất và tuổi":    nil,
 
+		// other dates
+		"start date and age": t.handleStartDateAndAge,
+
 		// List
-		"hlist":           t.handleHList,
-		"plainlist":       t.handlePlainList,
-		"plain list":      t.handlePlainList,
-		"flatlist":        t.handleFlatList,
-		"flat list":       t.handleFlatList,
-		"unbulleted list": t.handleUnbulletedList,
-		"ordered list":    t.handleOrderedList,
-		"pagelist":        t.handlePageList,
+		"hlist":            t.handleHList,
+		"plainlist":        t.handlePlainList,
+		"plain list":       t.handlePlainList,
+		"flatlist":         t.handleFlatList,
+		"flat list":        t.handleFlatList,
+		"unbulleted list":  t.handleUnbulletedList,
+		"ordered list":     t.handleOrderedList,
+		"pagelist":         t.handlePageList,
+		"collapsible list": t.handleCollapsibleList,
 
 		// URL
 		"url": t.handleURL,
@@ -57,6 +62,17 @@ func NewTemplate() *Template {
 
 		// nowrap
 		"nowrap": t.handleNowrap,
+
+		// stocks
+		"nasdaq": t.handleTradedAs,
+		"lse":    t.handleTradedAs,
+		"fwb":    t.handleTradedAs,
+
+		// currency
+		"us$": t.handleRevenue,
+
+		// dot
+		"·": t.handleDot,
 	}
 	return t
 }
@@ -76,15 +92,22 @@ func (t *Template) GetPlainTextByField(field string) (string, error) {
 	return "", fmt.Errorf("field=%s does not exists", field)
 }
 
-// ----- Birthdate -----
-
-// {{Birth-date and age|1941}} → 1941 (age 81)
-func (t *Template) handleBirthDateAndAge1() (string, error) {
-	return t.getParamTextByKeyIndex(1)
+func (t *Template) GetParamsInPlainText() map[string]string {
+	out := make(map[string]string)
+	for fieldName, wikicode := range t.Params {
+		if len(fieldName) > 0 {
+			if text, err := wikicode.GetPlainText(); err == nil {
+				out[fieldName] = text
+			}
+		}
+	}
+	return out
 }
 
-// {{Birth date and age|2016|12|31|df=y}} → 31 December 2016 (age 5)
-func (t *Template) handleBirthDateAndAge0() (string, error) {
+// ----- Birthdate -----
+
+// 1976|04|01 -> 1976-04-01
+func (t *Template) getDateFromYYMMDD() (string, error) {
 	var yymmdd [3]string
 	var err error
 	for i := 0; i < 3; i++ {
@@ -98,9 +121,24 @@ func (t *Template) handleBirthDateAndAge0() (string, error) {
 	return yymmdd[2] + "-" + yymmdd[1] + "-" + yymmdd[0], nil
 }
 
+// {{Birth-date and age|1941}} → 1941 (age 81)
+func (t *Template) handleBirthDateAndAge1() (string, error) {
+	return t.getParamTextByKeyIndex(1)
+}
+
+// {{Birth date and age|2016|12|31|df=y}} → 31 December 2016 (age 5)
+func (t *Template) handleBirthDateAndAge0() (string, error) {
+	return t.getDateFromYYMMDD()
+}
+
 // {{Birth year and age|1941}} → 1941 (age 80–81)
 func (t *Template) handleBirthYearAndAge() (string, error) {
 	return t.getParamTextByKeyIndex(1)
+}
+
+// {{Start date and age|1976|04|01}}
+func (t *Template) handleStartDateAndAge() (string, error) {
+	return t.getDateFromYYMMDD()
 }
 
 // ----- Lists -----
@@ -110,8 +148,9 @@ func (t *Template) handleList() (string, error) {
 	for _, wikicode := range t.Params {
 		if text, err := wikicode.GetPlainText(); err == nil {
 			if len(out) > 0 && len(text) > 0 {
-				out += ", " + text
+				out += ", "
 			}
+			out += text
 		}
 	}
 	return out, nil
@@ -141,6 +180,22 @@ func (t *Template) handlePageList() (string, error) {
 	return t.handleList()
 }
 
+func (t *Template) handleCollapsibleList() (string, error) {
+	var out string
+	i := 1
+	for ; i < len(t.Params); i++ {
+		if wikicode, ok := t.Params[fmt.Sprintf("%d", i)]; ok {
+			if text, err := wikicode.GetPlainText(); err == nil {
+				if len(out) > 0 && text != "" {
+					out += ", "
+				}
+				out += text
+			}
+		}
+	}
+	return out, nil
+}
+
 // ----- URLs -----
 func (t *Template) handleURL() (string, error) {
 	return t.getParamTextByKeyIndex(1)
@@ -163,6 +218,36 @@ func (t *Template) handleHeight() (string, error) {
 
 func (t *Template) handleNowrap() (string, error) {
 	return t.getParamTextByKeyIndex(1)
+}
+
+// ----- Stocks -----
+// | traded_as = {{nasdaq|AAPL}}, {{lse|0HDZ}}, {{FWB|APC}}
+
+func (t *Template) handleTradedAs() (string, error) {
+	paramText, err := t.getParamTextByKeyIndex(1)
+	if err != nil {
+		return "", err
+	}
+	out := strings.ToUpper(t.Name + ":" + paramText)
+	return out, nil
+}
+
+// ----- Currency -----
+// {{US$|274.515 tỉ|link=yes}}
+func (t *Template) handleRevenue() (string, error) {
+	value, err := t.getParamTextByKeyIndex(1)
+	if err != nil {
+		return "", err
+	}
+	if unit, ok := units[strings.ToLower(t.Name)]; ok {
+		return value + " " + unit, nil
+	}
+	return "", fmt.Errorf("could not handle revenue")
+}
+
+// ----- Dot -----
+func (t *Template) handleDot() (string, error) {
+	return "·", nil
 }
 
 // -- utils

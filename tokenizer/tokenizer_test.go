@@ -39,7 +39,7 @@ func TestTokenizer(t *testing.T) {
 			| nghề nghiệp = Diễn viên, nhà sản xuất
 			| năm hoạt động = 1999 - nay
 			| người hôn phối = {{marriage|[[Jennifer Esposito]]|2006|2007|reason=divorced}}
-			| Bạn đời = 
+			| Bạn đời =
 			| nơi sinh = [[Philadelphia]], [[Pennsylvania]], [[Hoa Kỳ]]
 			}}`: {
 			{"templateOpen", "{{"},
@@ -169,6 +169,24 @@ func TestTokenizer(t *testing.T) {
 			{"text", "PSG"},
 			{"templateClose", "}}"},
 			{"tagRefClose", "</ref>"},
+		},
+		`<ref name="SEC filing">{{hello world}}</ref>`: {
+			{"tagRefOpen", "<ref"},
+			{"text", "name"},
+			{"templateParamEquals", "="},
+			{"text", `"SEC filing"`},
+			{"tagGreaterThan", ">"},
+			{"templateOpen", "{{"},
+			{"text", "hello world"},
+			{"templateClose", "}}"},
+			{"tagRefClose", "</ref>"},
+		},
+		`<ref name="SEC filing"/>`: {
+			{"tagRefOpen", "<ref"},
+			{"text", "name"},
+			{"templateParamEquals", "="},
+			{"text", `"SEC filing"`},
+			{"tagClose", "/>"},
 		},
 	}
 

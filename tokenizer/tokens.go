@@ -24,9 +24,15 @@ const (
 	CommentEnd   = "-->"
 
 	// tags
-	TagRefOpen  = "<ref>"
-	TagRefClose = "</ref>"
-	TagBreak    = "<br>"
+	TagRefOpen     = "<ref>"
+	TagRefOpen1    = "<ref"
+	TagRefClose    = "</ref>"
+	TagClose       = "/>"
+	TagBreak       = "<br>"
+	TagBreak1      = "<br />"
+	TagGreaterThan = ">"
+	TagLessThan    = "<"
+	TagListItem    = "<li>"
 
 	// format
 	Italic = `''`

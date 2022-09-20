@@ -73,6 +73,24 @@ func TestTemplateGetPlainText(t *testing.T) {
 				"1": {list: []Elem{NewText("Austin Swift")}},
 				"2": {list: []Elem{NewText("Marjorie Finlay")}}},
 		}: "Austin Swift, Marjorie Finlay",
+		{
+			Name: "collapsible list",
+			Params: map[string]*Wikicode{
+				"framestyle": {list: []Elem{NewText("border:none; padding:0;")}},
+				"title":      {},
+				"1":          {list: []Elem{NewText("Mac")}},
+				"2":          {list: []Elem{NewText("iPod")}},
+				"3":          {list: []Elem{NewText("iPhone")}},
+				"4":          {list: []Elem{NewText("iPad")}},
+				"5":          {list: []Elem{NewText("Apple Watch")}},
+				"6":          {list: []Elem{NewText("Apple TV")}},
+				"7":          {list: []Elem{NewText("macOS")}},
+				"8":          {list: []Elem{NewText("iOS")}},
+				"9":          {list: []Elem{NewText("iPadOS")}},
+				"10":         {list: []Elem{NewText("watchOS")}},
+				"11":         {list: []Elem{NewText("tvOS")}},
+			},
+		}: "Mac, iPod, iPhone, iPad, Apple Watch, Apple TV, macOS, iOS, iPadOS, watchOS, tvOS",
 	}
 
 	for temp, expected := range samples {
@@ -81,6 +99,6 @@ func TestTemplateGetPlainText(t *testing.T) {
 		template0.Params = temp.Params
 		out, err := template0.GetPlainText()
 		assert.Equal(t, err, nil)
-		assert.Equal(t, out, expected)
+		assert.Equal(t, out, expected, temp.Name)
 	}
 }
