@@ -11,8 +11,8 @@ func NewText(data string) Text {
 
 func (t Text) GetPlainText() (string, error) {
 	out := string(t)
-	if out == tokenizer.TemplateAsteriskInList { // * in list
-		out = ", "
+	if out == tokenizer.TemplateAsteriskInList || out == tokenizer.TagBreak || out == tokenizer.TagBreak1 { // * in list
+		out = ","
 	}
 	return out, nil
 }

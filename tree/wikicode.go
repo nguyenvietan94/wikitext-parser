@@ -1,6 +1,9 @@
 package tree
 
-import "strings"
+import (
+	"strings"
+	"wikitext-parser/utils"
+)
 
 type Elem interface {
 	GetPlainText() (string, error)
@@ -22,7 +25,10 @@ func (w *Wikicode) GetPlainText() (string, error) {
 		if err != nil {
 			continue
 		}
-		if len(out) > 0 && !strings.HasPrefix(next, ",") && !strings.HasPrefix(next, ")") && !strings.HasSuffix(out, "(") {
+		if len(out) == 0 && utils.IsPuctuation(next) {
+			continue
+		}
+		if len(out) > 0 && !strings.HasPrefix(next, ",") && !strings.HasPrefix(next, "(") && !strings.HasPrefix(next, ")") && !strings.HasSuffix(out, "(") {
 			out += " "
 		}
 		out += next

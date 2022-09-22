@@ -14,6 +14,7 @@ var (
 		"centimetres": "cm",
 		"centimeter":  "cm",
 		"us$":         "đô la Mỹ",
+		"$":           "đô la Mỹ",
 	}
 )
 
@@ -69,10 +70,12 @@ func NewTemplate() *Template {
 		"fwb":    t.handleTradedAs,
 
 		// currency
-		"us$": t.handleRevenue,
+		"us$": t.handleCurrency,
+		"$":   t.handleCurrency,
 
-		// dot
-		"·": t.handleDot,
+		// punctuation
+		"·":     t.handleDot,
+		"ndash": t.handleNDash,
 	}
 	return t
 }
@@ -156,6 +159,7 @@ func (t *Template) handleList() (string, error) {
 	return out, nil
 }
 
+// TODO: handle item order, eg. {{hlist|entry1|entry2|entry3}}
 func (t *Template) handleHList() (string, error) {
 	return t.handleList()
 }
@@ -234,7 +238,7 @@ func (t *Template) handleTradedAs() (string, error) {
 
 // ----- Currency -----
 // {{US$|274.515 tỉ|link=yes}}
-func (t *Template) handleRevenue() (string, error) {
+func (t *Template) handleCurrency() (string, error) {
 	value, err := t.getParamTextByKeyIndex(1)
 	if err != nil {
 		return "", err
@@ -242,12 +246,16 @@ func (t *Template) handleRevenue() (string, error) {
 	if unit, ok := units[strings.ToLower(t.Name)]; ok {
 		return value + " " + unit, nil
 	}
-	return "", fmt.Errorf("could not handle revenue")
+	return "", fmt.Errorf("could not handle currency")
 }
 
-// ----- Dot -----
+// ----- Punctuation -----
 func (t *Template) handleDot() (string, error) {
 	return "·", nil
+}
+
+func (t *Template) handleNDash() (string, error) {
+	return "-", nil
 }
 
 // -- utils

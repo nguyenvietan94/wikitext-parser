@@ -17,9 +17,10 @@ var (
 		TemplateParamSeparator,
 		TemplateParamEquals,
 		TemplateAsteriskInList,
+		TagSmallOpen, TagSmallClose,
 		TagRefOpen, TagRefClose,
 		TagRefOpen1, TagClose,
-		TagBreak, TagBreak1,
+		TagBreak, TagBreak1, TagBreak2,
 		TagListItem,
 		TagGreaterThan, TagLessThan,
 		CommentStart, CommentEnd,
@@ -27,27 +28,30 @@ var (
 		TextWithEscapes,
 	}
 	delimiterNames = map[string]string{
-		"{{":     "templateOpen",
-		"}}":     "templateClose",
-		"[[":     "wikilinkOpen",
-		"]]":     "wikilinkClose",
-		"{{{":    "parameterOpen",
-		"}}}":    "parameterClose",
-		"<ref>":  "tagRefOpen",
-		"<ref":   "tagRefOpen",
-		"</ref>": "tagRefClose",
-		"<br>":   "break",
-		"<br />": "break1",
-		"/>":     "tagClose",
-		"<!--":   "commentStart",
-		"-->":    "commentEnd",
-		">":      "tagGreaterThan",
-		"<":      "tagLessThan",
-		"<li>":   "tagListItem",
-		"|":      "templateParamSeparator",
-		"=":      "templateParamEquals",
-		"''":     "italic",
-		"'''":    "bold",
+		"{{":       "templateOpen",
+		"}}":       "templateClose",
+		"[[":       "wikilinkOpen",
+		"]]":       "wikilinkClose",
+		"{{{":      "parameterOpen",
+		"}}}":      "parameterClose",
+		"<ref>":    "tagRefOpen",
+		"<ref":     "tagRefOpen",
+		"</ref>":   "tagRefClose",
+		"<br>":     "break",
+		"<br/>":    "break",
+		"<br />":   "break",
+		"/>":       "tagClose",
+		"<!--":     "commentStart",
+		"-->":      "commentEnd",
+		"<small>":  "tagSmallStart",
+		"</small>": "tagSmallEnd",
+		">":        "tagGreaterThan",
+		"<":        "tagLessThan",
+		"<li>":     "tagListItem",
+		"|":        "templateParamSeparator",
+		"=":        "templateParamEquals",
+		"''":       "italic",
+		"'''":      "bold",
 	}
 )
 
@@ -112,7 +116,7 @@ func TokenizeWithFormatCorrection(data string) ([]*Token, error) {
 	return tokens, nil
 }
 
-// <ref https://hello.com /> => <ref, https://hello.com/, > => <ref, https://hello.com, />
+// "<ref https://hello.com />" obtains ["<ref", "https://hello.com/", ">"] then changes to ["<ref", "https://hello.com", "/>"]"
 func fixEndReferenceTag(tokens []*Token) []*Token {
 	var out []*Token
 	for i := 0; i < len(tokens); i++ {

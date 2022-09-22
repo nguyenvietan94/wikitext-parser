@@ -19,3 +19,7 @@ func PreprocessTemplateName(templateName string) string {
 	}
 	return strings.TrimSpace(templateName)
 }
+
+func IsPuctuation(text string) bool {
+	return text == "." || text == ","
+}

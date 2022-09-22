@@ -251,5 +251,5 @@ func (p *Parser) handleComment() tree.Elem {
 }
 
 func (p *Parser) handleTagBreak() tree.Elem {
-	return nil
+	return tree.NewText(",")
 }

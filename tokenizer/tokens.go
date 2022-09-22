@@ -29,11 +29,13 @@ const (
 	TagRefClose    = "</ref>"
 	TagClose       = "/>"
 	TagBreak       = "<br>"
-	TagBreak1      = "<br />"
+	TagBreak1      = "<br/>"
+	TagBreak2      = "<br />"
 	TagGreaterThan = ">"
 	TagLessThan    = "<"
 	TagListItem    = "<li>"
-
+	TagSmallOpen   = "<small>"
+	TagSmallClose  = "</small>"
 	// format
 	Italic = `''`
 	Bold   = `'''`
