@@ -43,6 +43,7 @@ func NewTemplate() *Template {
 
 		// other dates
 		"start date and age": t.handleStartDateAndAge,
+		"as of":              t.handleAsOf,
 
 		// List
 		"hlist":            t.handleHList,
@@ -51,6 +52,7 @@ func NewTemplate() *Template {
 		"flatlist":         t.handleFlatList,
 		"flat list":        t.handleFlatList,
 		"unbulleted list":  t.handleUnbulletedList,
+		"ubl":              t.handleUnbulletedList,
 		"ordered list":     t.handleOrderedList,
 		"pagelist":         t.handlePageList,
 		"collapsible list": t.handleCollapsibleList,
@@ -76,6 +78,9 @@ func NewTemplate() *Template {
 		// punctuation
 		"·":     t.handleDot,
 		"ndash": t.handleNDash,
+
+		// formats
+		"small": t.handleSmall,
 	}
 	return t
 }
@@ -144,6 +149,10 @@ func (t *Template) handleStartDateAndAge() (string, error) {
 	return t.getDateFromYYMMDD()
 }
 
+func (t *Template) handleAsOf() (string, error) {
+	return t.getDateFromYYMMDD()
+}
+
 // ----- Lists -----
 
 func (t *Template) handleList() (string, error) {
@@ -161,7 +170,7 @@ func (t *Template) handleList() (string, error) {
 
 // TODO: handle item order, eg. {{hlist|entry1|entry2|entry3}}
 func (t *Template) handleHList() (string, error) {
-	return t.handleList()
+	return t.handleCollapsibleList()
 }
 
 func (t *Template) handlePlainList() (string, error) {
@@ -177,7 +186,7 @@ func (t *Template) handleOrderedList() (string, error) {
 }
 
 func (t *Template) handleUnbulletedList() (string, error) {
-	return t.handleList()
+	return t.handleCollapsibleList()
 }
 
 func (t *Template) handlePageList() (string, error) {
@@ -187,7 +196,7 @@ func (t *Template) handlePageList() (string, error) {
 func (t *Template) handleCollapsibleList() (string, error) {
 	var out string
 	i := 1
-	for ; i < len(t.Params); i++ {
+	for ; i <= len(t.Params); i++ {
 		if wikicode, ok := t.Params[fmt.Sprintf("%d", i)]; ok {
 			if text, err := wikicode.GetPlainText(); err == nil {
 				if len(out) > 0 && text != "" {
@@ -256,6 +265,11 @@ func (t *Template) handleDot() (string, error) {
 
 func (t *Template) handleNDash() (string, error) {
 	return "-", nil
+}
+
+// ----- small -----
+func (t *Template) handleSmall() (string, error) {
+	return t.getParamTextByKeyIndex(1)
 }
 
 // -- utils

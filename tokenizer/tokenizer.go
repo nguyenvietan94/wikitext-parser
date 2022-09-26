@@ -11,9 +11,11 @@ var (
 	// ''' is ahead of ''
 	/// <ref> is head of <ref
 	delimiters = []string{
+		TemplateParamClose4,
 		TemplateParamOpen, TemplateParamClose,
 		TemplateOpen, TemplateClose,
 		WikilinkOpen, WikilinkClose,
+		ExternalLinkOpen, ExternalLinkClose,
 		TemplateParamSeparator,
 		TemplateParamEquals,
 		TemplateAsteriskInList,
@@ -32,6 +34,8 @@ var (
 		"}}":       "templateClose",
 		"[[":       "wikilinkOpen",
 		"]]":       "wikilinkClose",
+		"[":        "externalLinkOpen",
+		"]":        "externalLinkClose",
 		"{{{":      "parameterOpen",
 		"}}}":      "parameterClose",
 		"<ref>":    "tagRefOpen",
@@ -102,6 +106,7 @@ func Tokenize(data string) ([]*Token, error) {
 		}
 	}
 	tokens = fixEndReferenceTag(tokens)
+	tokens = fixFourConsecutiveCurlyBraces(tokens)
 	return tokens, nil
 }
 
@@ -126,6 +131,20 @@ func fixEndReferenceTag(tokens []*Token) []*Token {
 			out = append(out, &Token{"text", first})
 			out = append(out, &Token{"tagClose", second})
 			i++
+		} else {
+			out = append(out, tokens[i])
+		}
+	}
+	return out
+}
+
+// }}}} -> }}, }}
+func fixFourConsecutiveCurlyBraces(tokens []*Token) []*Token {
+	var out []*Token
+	for i := 0; i < len(tokens); i++ {
+		if tokens[i].Token == "}}}}" {
+			out = append(out, &Token{Type: "templateClose", Token: "}}"})
+			out = append(out, &Token{Type: "templateClose", Token: "}}"})
 		} else {
 			out = append(out, tokens[i])
 		}

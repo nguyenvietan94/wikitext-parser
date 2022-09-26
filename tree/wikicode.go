@@ -28,6 +28,9 @@ func (w *Wikicode) GetPlainText() (string, error) {
 		if len(out) == 0 && utils.IsPuctuation(next) {
 			continue
 		}
+		if strings.HasSuffix(out, ",") && next == "," {
+			continue
+		}
 		if len(out) > 0 && !strings.HasPrefix(next, ",") && !strings.HasPrefix(next, "(") && !strings.HasPrefix(next, ")") && !strings.HasSuffix(out, "(") {
 			out += " "
 		}

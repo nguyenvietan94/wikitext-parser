@@ -145,6 +145,125 @@ var (
 		| num_employees_year = 2018
 		| website = {{URL|microsoft.com}}
 		|image_size=300}}`
+	MetaInfobox string = `{{Infobox company
+		| name = Meta Platforms, Inc.
+		| logo = Meta Inc. logo.svg
+		| type = [[Công ty đại chúng|Đại chúng]]
+		| image = File:Meta Platforms Headquarters Menlo Park California.jpg
+		| image_caption = Toàn cảnh trụ sở Meta tại Menlo Park
+		| traded_as = {{ubl|Lớp A: {{NASDAQ|FB}}|[[NASDAQ-100|NASDAQ-100 component]]|[[S&P 100|S&P 100 component]]|[[S&P 500|S&P 500 component]]|Lớp B: Không niêm yết}}
+		| industry = {{ubl|[[Dịch vụ mạng xã hội]]|[[Quảng cáo]]}}
+		| founded = {{Start date and age|2004|02|04}} tại [[Cambridge, Massachusetts]]
+		| founders = {{plainlist|
+		* [[Mark Zuckerberg]]
+		* [[Eduardo Saverin]]
+		* [[Andrew McCollum]]
+		* [[Dustin Moskovitz]]
+		* [[Chris Hughes]]
+		}}
+		| hq_location_city = [[Menlo Park, California]]
+		| hq_location_country = U.S.
+		| area_served = Toàn thế giới (trừ các quốc gia kiểm duyệt)
+		| key_people = {{plainlist|
+		* [[Mark Zuckerberg]] ([[Chủ tịch]], [[Tổng giám đốc điều hành|CEO]], [[Controlling interest|Controlling Shareholder]])
+		* [[Sheryl Sandberg]] ([[Giám đốc điều hành|COO]])
+		* [[David Wehner]] ([[Giám đốc tài chính|CFO]])
+		* [[Mike Schroepfer]] ([[Giám đốc công nghệ|CTO]])
+		}}
+		| products = {{Plainlist|
+		* [[Facebook]]
+		* [[Instagram]]
+		* [[Facebook Messenger|Messenger]]
+		* [[WhatsApp]]
+		* [[Facebook Watch|Watch]]
+		* [[Facebook Portal|Portal]]
+		* [[Oculus VR|Oculus]]
+		* [[Calibra (công ty)|Calibra]]
+		}}
+		| revenue = {{increase}} 55,838 tỷ [[Đô la Mỹ|Mỹ kim]]
+		| revenue_year = 2018
+		| operating_income = {{increase}} 24,913 tỷ Mỹ kim
+		| income_year = 2018
+		| net_income = {{increase}} 22,111 tỷ Mỹ kim
+		| net_income_year = 2018
+		| assets = {{increase}} 97,334 tỷ Mỹ kim
+		| assets_year = 2018
+		| equity = {{increase}} 84,127 tỷ Mỹ kim
+		| equity_year = 2018
+		| num_employees = 43.030<ref>https://s21.q4cdn.com/399680738/files/doc_financials/2019/q3/FB-Q3-2019-Earnings-Release.pdf</ref>
+		| num_employees_year = ngày 30 tháng 9 năm 2019
+		| website = {{URL|https://about.fb.com/}}
+		| footnotes = <ref name="Our History">{{chú thích web|title=Our History|url=https://newsroom.fb.com/company-info/|website=Facebook|access-date =ngày 7 tháng 11 năm 2018}}</ref><ref>{{chú thích web|last=Shaban|first=Hamza|title=Digital advertising to surpass print and TV for the first time, report says|url=https://www.washingtonpost.com/technology/2019/02/20/digital-advertising-surpass-print-tv-first-time-report-says|website=The Washington Post|access-date=ngày 2 tháng 6 năm 2019|date=ngày 20 tháng 2 năm 2019}}</ref><ref name=SOI>{{chú thích web|title=FB Income Statement|url=https://www.nasdaq.com/symbol/fb/financials|website=NASDAQ.com}}</ref><ref name=DOI>{{chú thích web|title=FB Balance Sheet|url=https://www.nasdaq.com/symbol/fb/financials?query=balance-sheet|website=NASDAQ.com}}</ref><ref>{{chú thích web|url=https://newsroom.fb.com/company-info/|title=Stats|publisher=Facebook|access-date=ngày 25 tháng 7 năm 2019|date=ngày 30 tháng 6 năm 2019}}</ref>
+		}}`
+	NetflixInfobox string = `{{Infobox company
+		| name = Netflix, Inc.
+		| logo = [[Tập tin:Netflix 2015 logo.svg|frameless|upright]]
+		| screenshot= [[Tập tin:netflixvn.jpeg]]
+		| caption = [[Ảnh chụp màn hình]] trang chủ Netflix phiên bản tiếng Việt
+		| company_type = [[Công ty đại chúng]]
+		| traded_as = {{ubl|{{NASDAQ|NFLX}}|[[NASDAQ-100]]|[[S&P 100]]|[[S&P 500]]}}
+		| area_served = Toàn cầu, ngoại trừ [[Trung Quốc đại lục]], [[Syria]], [[Bắc Triều Tiên]] và [[Bán đảo Krym]]<ref>{{chú thích web|title=Where is Netflix available?|url=https://help.netflix.com/en/node/14164|publisher=Netflix|access-date =ngày 8 tháng 8 năm 2017|url-status=live|archiveurl=https://web.archive.org/web/20170707184542/https://help.netflix.com/en/node/14164|archivedate=ngày 7 tháng 7 năm 2017|df=mdy-all}}</ref>
+		| founder = {{plainlist|
+		* [[Reed Hastings]]
+		* [[Marc Randolph]]
+		}}
+		| industry = Giải trí, [[truyền thông đại chúng]]
+		| products = {{flatlist|
+		* Streaming media
+		* video on demand
+		}}
+		| services = {{flatlist|
+		* Nhà sản xuất phim
+		* Nhà phân phối phim
+		* Chương trình truyền hình
+		}}
+		| divisions = US Streaming<br />International Streaming<br />Domestic DVD<ref>{{chú thích web|url= http://revenuesandprofits.com/how-netflix-makes-money/|title= How Netflix Makes Money? – Revenues &|last= Miglani|date= ngày 18 tháng 6 năm 2015|url-status=live|archiveurl= https://web.archive.org/web/20170219172342/https://revenuesandprofits.com/how-netflix-makes-money/|archivedate= ngày 19 tháng 2 năm 2017|df= mdy-all}}</ref>
+		| revenue = {{increase}}{{US$|15.794 tỉ|link=yes}} (2018)<ref name="ir.netflix.com">{{chú thích web|url=https://www.netflixinvestor.com/financials/financial-statements/default.aspx|title=Netflix Q4 2018 Results|access-date = ngày 18 tháng 1 năm 2019}}</ref>
+		| operating_income = {{increase}}US$1.605 tỉ (2018)<ref name="ir.netflix.com"/>
+		| net_income = {{increase}}US$1.211 tỉ (2018)<ref name="ir.netflix.com"/>
+		| assets = {{increase}}US$25.974 tỉ (2018)<ref name="ir.netflix.com"/>
+		| equity = {{increase}}US$5.289 tỉ (2018)<ref name="ir.netflix.com"/>
+		| alexa = {{increase}} 24 {{small|{{nowrap|({{as of|2019|04|06|alt=Tháng tư 2019}})}}}}<ref>{{chú thích web |title=Netflix.com Traffic, Demographics and Competitors - Alexa |url=https://www.alexa.com/siteinfo/netflix.com |website=www.alexa.com |access-date=ngày 6 tháng 4 năm 2019 |archive-date=2017-10-29 |archive-url=https://web.archive.org/web/20171029142606/https://www.alexa.com/siteinfo/netflix.com |url-status=dead }}</ref>
+		| registration = Cần thiết
+		| foundation = {{Start date and age|1997|8|29}}<ref>{{chú thích web|title=Business Search – Business Entities – Business Programs {{!}} California Secretary of State|url=https://businesssearch.sos.ca.gov/CBS/SearchResults?SearchType=CORP&SearchCriteria=Netflix&SearchSubType=Keyword|website=businesssearch.sos.ca.gov|access-date =ngày 26 tháng 5 năm 2017|url-status=live|archiveurl=https://web.archive.org/web/20170813103404/https://businesssearch.sos.ca.gov/CBS/SearchResults?SearchType=CORP&SearchCriteria=Netflix&SearchSubType=Keyword|archivedate=ngày 13 tháng 8 năm 2017|df=mdy-all}}</ref> tại [[Scotts Valley, California]]
+		| location = [[Los Gatos, California]], Hoa Kỳ
+		| key_people = {{plainlist|
+		* Reed Hastings {{small|(Chủ tịch, Giám đốc điều hành)}}
+		* [[Ted Sarandos]] {{small|(Giám đốc thương mại)}}
+		}}
+		| subsid = {{Plainlist|
+		* DVD.com
+		* [[Millarworld]]<ref name="Archived copy">{{chú thích web |url=https://ir.netflix.com/node/29631/html |title=Netflix - Financials - SEC Filings |access-date = ngày 30 tháng 1 năm 2018 |url-status=live |archiveurl=https://web.archive.org/web/20180131024137/https://ir.netflix.com/node/29631/html |archivedate=ngày 31 tháng 1 năm 2018 |df=mdy-all }}</ref>
+		* LT-LA<ref>{{chú thích web |last1=Hipes |first1=Patrick |title=Netflix Takes Top Awards Strategist Lisa Taback Off The Table |url=https://deadline.com/2018/07/netflix-lisa-taback-hollywood-awards-strategist-hire-1202428876/ |website=deadline.com |access-date =ngày 18 tháng 7 năm 2018|date = ngày 18 tháng 7 năm 2018}}</ref>
+		*ABQ Studios
+		*Netflix Animation
+		*Netflix Pte. Ltd.
+		*Netflix Services UK Limited
+		*Netflix Streaming Services International B.V.
+		*Netflix Streaming Services, Inc.
+		*Netflix Global, LLC
+		*Netflix Services Germany GmbH
+		*NetflixCS, Inc.
+		*Netflix Luxembourg S.a r.l.
+		*Netflix Studios
+		*Netflix Entretenimento Brasil LTDA.
+		*[[StoryBots]]
+		}}
+		| num_users = 154 triệu người (toàn cầu),<br />
+		148 triệu người (đã thanh toán)<ref name="NFLX Q1 2019" />
+		| num_employees = {{increase}} 5,400 (2017)<ref name="Archived copy"/>
+		| website = {{URL|https://www.netflix.com}}
+		}}`
+	TPBankInfobox string = `{{Tóm tắt về công ty
+		| biểu trưng      = Tập tin:Logo TPBank.svg
+		| loại            = Tài chính
+		| thành lập       = 5/5/2008
+		| thành viên chủ chốt = Đỗ Minh Phú (Chủ tịch HĐQT)
+		| sản phẩm        = Dịch vụ tài chính, Ngân hàng
+		| tài sản         = 164,593 tỷ VNĐ (30/09/2019)
+		| khẩu hiệu       = Vì chúng tôi hiểu bạn
+		| trang chủ       = [http://tpb.vn/ https://tpb.vn/]
+		|Vốn điều lệ=8,565 tỷ VNĐ (30/09/2019)}}`
 )
 
 func TestExtractingInfoboxAsPlainText(t *testing.T) {
@@ -205,14 +324,14 @@ func TestExtractingInfoboxAsPlainText(t *testing.T) {
 			"net_income":       "11,588 tỷ USD (2019)",
 			"assets":           "255,248 tỷ USD (2019)",
 			"equity":           "62,060 tỷ USD (2019)",
-			// "products":         "Amazon Echo, Amazon Kindle, Amazon Fire, Amazon Fire Tv, Amazon Fire OS",
-			"website_type": "thương mại điện tử",
-			"language":     "tiếng Anh, tiếng Nhật, tiếng Đức, tiếng Pháp, tiếng Trung",
-			"advertising":  "web banner và video",
-			"launch_date":  "1995",
-			"alexa":        "5",
-			"website":      "https://www.amazon.com",
-			// "dịch vụ":          "Amazon.com, Amazon Alexa, Amazon Appstore, Amazon Music, Amazon Prime, Amazon Prime Video, Amazon Web Services",
+			"products":         "Amazon Echo, Amazon Kindle, Amazon Fire, Amazon Fire Tv, Amazon Fire OS",
+			"website_type":     "thương mại điện tử",
+			"language":         "tiếng Anh, tiếng Nhật, tiếng Đức, tiếng Pháp, tiếng Trung",
+			"advertising":      "web banner và video",
+			"launch_date":      "1995",
+			"alexa":            "5",
+			"website":          "https://www.amazon.com",
+			"dịch vụ":          "Amazon.com, Amazon Alexa, Amazon Appstore, Amazon Music, Amazon Prime, Amazon Prime Video, Amazon Web Services",
 		},
 		MicrosoftInfobox: {
 			"tên":                "Microsoft Corporation",
@@ -245,11 +364,81 @@ func TestExtractingInfoboxAsPlainText(t *testing.T) {
 			"website":            "microsoft.com",
 			"image_size":         "300",
 		},
+		MetaInfobox: {
+			"name":                "Meta Platforms, Inc.",
+			"logo":                "Meta Inc. logo.svg",
+			"type":                "Đại chúng",
+			"image":               "Meta Platforms Headquarters Menlo Park California.jpg",
+			"image_caption":       "Toàn cảnh trụ sở Meta tại Menlo Park",
+			"traded_as":           "Lớp A: NASDAQ:FB, NASDAQ-100 component, S&P 100 component, S&P 500 component, Lớp B: Không niêm yết",
+			"industry":            "Dịch vụ mạng xã hội, Quảng cáo",
+			"founded":             "04-02-2004 tại Cambridge, Massachusetts",
+			"founders":            "Mark Zuckerberg, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, Chris Hughes",
+			"hq_location_city":    "Menlo Park, California",
+			"hq_location_country": "U.S.",
+			"area_served":         "Toàn thế giới (trừ các quốc gia kiểm duyệt)",
+			"key_people":          "Mark Zuckerberg(Chủ tịch, CEO, Controlling Shareholder), Sheryl Sandberg(COO), David Wehner(CFO), Mike Schroepfer(CTO)",
+			"products":            "Facebook, Instagram, Messenger, WhatsApp, Watch, Portal, Oculus, Calibra",
+			"revenue":             "55,838 tỷ Mỹ kim",
+			"revenue_year":        "2018",
+			"operating_income":    "24,913 tỷ Mỹ kim",
+			"income_year":         "2018",
+			"net_income":          "22,111 tỷ Mỹ kim",
+			"net_income_year":     "2018",
+			"assets":              "97,334 tỷ Mỹ kim",
+			"assets_year":         "2018",
+			"equity":              "84,127 tỷ Mỹ kim",
+			"equity_year":         "2018",
+			"num_employees":       "43.030",
+			"num_employees_year":  "ngày 30 tháng 9 năm 2019",
+			"website":             "https://about.fb.com/",
+			"footnotes":           "",
+		},
+		NetflixInfobox: {
+			"name":             "Netflix, Inc.",
+			"logo":             "Netflix 2015 logo.svg",
+			"screenshot":       "netflixvn.jpeg",
+			"caption":          "Ảnh chụp màn hình trang chủ Netflix phiên bản tiếng Việt",
+			"company_type":     "Công ty đại chúng",
+			"traded_as":        "NASDAQ:NFLX, NASDAQ-100, S&P 100, S&P 500",
+			"area_served":      "Toàn cầu, ngoại trừ Trung Quốc đại lục, Syria, Bắc Triều Tiên và Bán đảo Krym",
+			"founder":          "Reed Hastings, Marc Randolph",
+			"industry":         "Giải trí, truyền thông đại chúng",
+			"products":         "Streaming media, video on demand",
+			"services":         "Nhà sản xuất phim, Nhà phân phối phim, Chương trình truyền hình",
+			"divisions":        "US Streaming, International Streaming, Domestic DVD",
+			"revenue":          "15.794 tỉ đô la Mỹ(2018)",
+			"operating_income": "US$1.605 tỉ (2018)",
+			"net_income":       "US$1.211 tỉ (2018)",
+			"assets":           "US$25.974 tỉ (2018)",
+			"equity":           "US$5.289 tỉ (2018)",
+			"alexa":            "24(06-04-2019)",
+			"registration":     "Cần thiết",
+			"foundation":       "29-8-1997 tại Scotts Valley, California",
+			"location":         "Los Gatos, California, Hoa Kỳ",
+			"key_people":       "Reed Hastings(Chủ tịch, Giám đốc điều hành), Ted Sarandos(Giám đốc thương mại)",
+			"subsid":           "DVD.com, Millarworld, LT-LA, ABQ Studios, Netflix Animation, Netflix Pte. Ltd., Netflix Services UK Limited, Netflix Streaming Services International B.V., Netflix Streaming Services, Inc., Netflix Global, LLC, Netflix Services Germany GmbH, NetflixCS, Inc., Netflix Luxembourg S.a r.l., Netflix Studios, Netflix Entretenimento Brasil LTDA., StoryBots",
+			"num_users":        "154 triệu người (toàn cầu), 148 triệu người (đã thanh toán)",
+			"num_employees":    "5,400 (2017)",
+			"website":          "https://www.netflix.com",
+		},
+		TPBankInfobox: {
+			"biểu trưng":          "Logo TPBank.svg",
+			"loại":                "Tài chính",
+			"thành lập":           "5/5/2008",
+			"thành viên chủ chốt": "Đỗ Minh Phú (Chủ tịch HĐQT)",
+			"sản phẩm":            "Dịch vụ tài chính, Ngân hàng",
+			"tài sản":             "164,593 tỷ VNĐ (30/09/2019)",
+			"khẩu hiệu":           "Vì chúng tôi hiểu bạn",
+			"trang chủ":           "http://tpb.vn/ https://tpb.vn/",
+			"Vốn điều lệ":         "8,565 tỷ VNĐ (30/09/2019)",
+		},
 	}
 	for data, expected := range samples {
 		p := NewParser(data)
 		err := p.parse()
 		assert.Equal(t, err, nil)
+		// p.printTokens()
 		params := p.getParams()
 		for key, val := range expected {
 			assert.Equal(t, params[key], val)
@@ -301,9 +490,9 @@ func TestExtractingRequiredFieldsInTemplate(t *testing.T) {
 			"lợi nhuận ròng":       "11,588 tỷ USD (2019)",
 			"tổng tài sản":         "255,248 tỷ USD (2019)",
 			"tổng vốn chủ sở hữu":  "62,060 tỷ USD (2019)",
-			// "sản phẩm":             "Amazon Echo, Amazon Kindle, Amazon Fire, Amazon Fire Tv, Amazon Fire OS",
-			"website": "https://www.amazon.com",
-			// "dịch vụ":              "Amazon.com, Amazon Alexa, Amazon Appstore, Amazon Music, Amazon Prime, Amazon Prime Video, Amazon Web Services",
+			"sản phẩm":             "Amazon Echo, Amazon Kindle, Amazon Fire, Amazon Fire Tv, Amazon Fire OS",
+			"website":              "https://www.amazon.com",
+			"dịch vụ":              "Amazon.com, Amazon Alexa, Amazon Appstore, Amazon Music, Amazon Prime, Amazon Prime Video, Amazon Web Services",
 		},
 		MicrosoftInfobox: {
 			"tên công ty":          "Microsoft Corporation",
@@ -325,6 +514,48 @@ func TestExtractingRequiredFieldsInTemplate(t *testing.T) {
 			"tổng vốn chủ sở hữu":  "82,71 tỉ đô la Mỹ(2018)",
 			"số nhân viên":         "138,944(2018)",
 			"website":              "microsoft.com",
+		},
+		MetaInfobox: {
+			"tên công ty":          "Meta Platforms, Inc.",
+			"logo":                 "Meta Inc. logo.svg",
+			"loại hình":            "Đại chúng",
+			"image":                "Meta Platforms Headquarters Menlo Park California.jpg",
+			"mã niêm yết":          "Lớp A: NASDAQ:FB, NASDAQ-100 component, S&P 100 component, S&P 500 component, Lớp B: Không niêm yết",
+			"ngành nghề":           "Dịch vụ mạng xã hội, Quảng cáo",
+			"thành lập":            "04-02-2004 tại Cambridge, Massachusetts",
+			"người sáng lập":       "Mark Zuckerberg, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, Chris Hughes",
+			"trụ sở chính":         "Menlo Park, California, U.S.",
+			"khu vực hoạt động":    "Toàn thế giới (trừ các quốc gia kiểm duyệt)",
+			"thành viên chủ chốt":  "Mark Zuckerberg(Chủ tịch, CEO, Controlling Shareholder), Sheryl Sandberg(COO), David Wehner(CFO), Mike Schroepfer(CTO)",
+			"sản phẩm":             "Facebook, Instagram, Messenger, WhatsApp, Watch, Portal, Oculus, Calibra",
+			"doanh thu":            "55,838 tỷ Mỹ kim(2018)",
+			"lợi nhuận kinh doanh": "24,913 tỷ Mỹ kim(2018)",
+			"lợi nhuận ròng":       "22,111 tỷ Mỹ kim(2018)",
+			"tổng tài sản":         "97,334 tỷ Mỹ kim(2018)",
+			"tổng vốn chủ sở hữu":  "84,127 tỷ Mỹ kim(2018)",
+			"số nhân viên":         "43.030(ngày 30 tháng 9 năm 2019)",
+			"website":              "https://about.fb.com/",
+		},
+		NetflixInfobox: {
+			"tên công ty":          "Netflix, Inc.",
+			"logo":                 "Netflix 2015 logo.svg",
+			"mã niêm yết":          "NASDAQ:NFLX, NASDAQ-100, S&P 100, S&P 500",
+			"khu vực hoạt động":    "Toàn cầu, ngoại trừ Trung Quốc đại lục, Syria, Bắc Triều Tiên và Bán đảo Krym",
+			"người sáng lập":       "Reed Hastings, Marc Randolph",
+			"ngành nghề":           "Giải trí, truyền thông đại chúng",
+			"sản phẩm":             "Streaming media, video on demand",
+			"dịch vụ":              "Nhà sản xuất phim, Nhà phân phối phim, Chương trình truyền hình",
+			"doanh thu":            "15.794 tỉ đô la Mỹ(2018)",
+			"lợi nhuận kinh doanh": "US$1.605 tỉ (2018)",
+			"lợi nhuận ròng":       "US$1.211 tỉ (2018)",
+			"tổng tài sản":         "US$25.974 tỉ (2018)",
+			"tổng vốn chủ sở hữu":  "US$5.289 tỉ (2018)",
+			"thành lập":            "29-8-1997 tại Scotts Valley, California",
+			"trụ sở":               "Los Gatos, California, Hoa Kỳ",
+			"thành viên chủ chốt":  "Reed Hastings(Chủ tịch, Giám đốc điều hành), Ted Sarandos(Giám đốc thương mại)",
+			"công ty con":          "DVD.com, Millarworld, LT-LA, ABQ Studios, Netflix Animation, Netflix Pte. Ltd., Netflix Services UK Limited, Netflix Streaming Services International B.V., Netflix Streaming Services, Inc., Netflix Global, LLC, Netflix Services Germany GmbH, NetflixCS, Inc., Netflix Luxembourg S.a r.l., Netflix Studios, Netflix Entretenimento Brasil LTDA., StoryBots",
+			"số nhân viên":         "5,400 (2017)",
+			"website":              "https://www.netflix.com",
 		},
 	}
 	for data, expected := range samples {

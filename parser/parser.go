@@ -30,16 +30,18 @@ func NewParser(data string) *Parser {
 	p := &Parser{data: utils.PreprocessText(data)}
 	p.root = tree.NewWikicode()
 	p.handlers = map[string]fn{
-		"templateOpen":  p.handleTemplate,
-		"templateClose": p.handleTemplate,
-		"text":          p.handleText,
-		"wikilinkOpen":  p.handleWikilink,
-		"wikilinkClose": p.handleWikilink,
-		"tagRefOpen":    p.handleReference,
-		"tagRefClose":   p.handleReference,
-		"commentStart":  p.handleComment,
-		"commentEnd":    p.handleComment,
-		"break":         p.handleTagBreak,
+		"templateOpen":      p.handleTemplate,
+		"templateClose":     p.handleTemplate,
+		"text":              p.handleText,
+		"wikilinkOpen":      p.handleWikilink,
+		"wikilinkClose":     p.handleWikilink,
+		"externalLinkOpen":  p.handleExternalLink,
+		"externalLinkClose": p.handleExternalLink,
+		"tagRefOpen":        p.handleReference,
+		"tagRefClose":       p.handleReference,
+		"commentStart":      p.handleComment,
+		"commentEnd":        p.handleComment,
+		"break":             p.handleTagBreak,
 	}
 	p.params = make(map[string]string)
 	return p
@@ -131,6 +133,7 @@ func (p *Parser) mergeParams() {
 	p.merge("num_employees_year", "num_employees")
 	p.merge("net_income_year", "net_income")
 	p.merge("location_country", "location_city")
+	p.merge("hq_location_country", "hq_location_city")
 }
 
 func (p *Parser) getParams() map[string]string {
@@ -252,4 +255,16 @@ func (p *Parser) handleComment() tree.Elem {
 
 func (p *Parser) handleTagBreak() tree.Elem {
 	return tree.NewText(",")
+}
+
+func (p *Parser) handleExternalLink() tree.Elem {
+	var externalLink *tree.ExternalLink
+	if p.cTokenIdx+2 < len(p.tokens) && p.tokens[p.cTokenIdx+2].Token == tokenizer.ExternalLinkClose {
+		externalLink = tree.NewExternalLink(p.tokens[p.cTokenIdx+1].Token, "")
+		p.cTokenIdx += 2
+	} else if p.cTokenIdx+3 < len(p.tokens) && p.tokens[p.cTokenIdx+3].Token == tokenizer.ExternalLinkClose {
+		externalLink = tree.NewExternalLink(p.tokens[p.cTokenIdx+2].Token, "")
+		p.cTokenIdx += 3
+	}
+	return externalLink
 }

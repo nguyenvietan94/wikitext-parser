@@ -9,15 +9,15 @@ const (
 	TemplateClose                     = "}}"
 	TemplateParamOpen                 = "{{{"
 	TemplateParamClose                = "}}}"
+	TemplateParamClose4               = "}}}}" // corner case, should be broken into }}, }}
 	TemplateAsteriskInList            = "*"
 
 	// wikilinks
-	WikilinkOpen                 = "[["
-	WikilinkOpenWithEscapes      = `\[\[`
-	WikilinkSeparator            = "|"
-	WikilinkSeparatorWithEscapes = `\|`
-	WikilinkClose                = "]]"
-	WikilinkCloseWithEscapes     = `\]\]`
+	WikilinkOpen      = "[["
+	WikilinkSeparator = "|"
+	WikilinkClose     = "]]"
+	ExternalLinkOpen  = `[`
+	ExternalLinkClose = `]`
 
 	// comments
 	CommentStart = "<!--"
