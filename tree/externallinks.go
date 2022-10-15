@@ -13,5 +13,8 @@ func NewExternalLink(link, displayedText string) *ExternalLink {
 }
 
 func (e *ExternalLink) GetPlainText() (string, error) {
+	if e == nil {
+		return "", nil
+	}
 	return e.link, nil
 }

@@ -1,8 +1,8 @@
 package tree
 
 import (
+	"knowledge-graph/app/wikitext-parser/tokenizer"
 	"strings"
-	"wikitext-parser/tokenizer"
 )
 
 type Text string

@@ -2,32 +2,35 @@ package parser
 
 import (
 	"fmt"
+	"knowledge-graph/app/wikitext-parser/templates"
+	"knowledge-graph/app/wikitext-parser/tokenizer"
+	"knowledge-graph/app/wikitext-parser/tree"
+	"knowledge-graph/app/wikitext-parser/utils"
 	"strconv"
 	"strings"
-	"wikitext-parser/templates"
-	"wikitext-parser/tokenizer"
-	"wikitext-parser/tree"
-	"wikitext-parser/utils"
 )
 
 type fn func() tree.Elem
 
-type fieldValue struct {
-	id    int
-	value string
+type FieldValue struct {
+	Id    int
+	Value string
 }
 
 type Parser struct {
-	data      string
-	tokens    []*tokenizer.Token
-	cTokenIdx int
-	root      *tree.Wikicode
-	handlers  map[string]fn
-	params    map[string]string
+	data         string
+	templateName string
+	tokens       []*tokenizer.Token
+	cTokenIdx    int
+	root         *tree.Wikicode
+	handlers     map[string]fn
+	params       map[string]string
 }
 
 func NewParser(data string) *Parser {
-	p := &Parser{data: utils.PreprocessText(data)}
+	data = utils.PreprocessText(data)
+	data = utils.GetWikiInfoboxFromText(data)
+	p := &Parser{data: data}
 	p.root = tree.NewWikicode()
 	p.handlers = map[string]fn{
 		"templateOpen":      p.handleTemplate,
@@ -47,7 +50,7 @@ func NewParser(data string) *Parser {
 	return p
 }
 
-func (p *Parser) parse() error {
+func (p *Parser) Parse() error {
 	err := p.tokenize()
 	if err != nil {
 		return err
@@ -62,6 +65,7 @@ func (p *Parser) parse() error {
 		}
 	}
 	err = p.convertTree2PlainText()
+	p.writeLog()
 	return err
 }
 
@@ -73,33 +77,33 @@ func (p *Parser) tokenize() error {
 
 func (p *Parser) convertTree2PlainText() error {
 	elemList := p.root.GetElemList()
-	if len(elemList) != 1 {
-		return fmt.Errorf("only support element list of length 1, but length=%d found", len(elemList))
-	}
-	if template, ok := elemList[0].(*tree.Template); ok && template != nil {
-		p.params = template.GetParamsInPlainText()
+	if len(elemList) == 1 {
+		if template, ok := elemList[0].(*tree.Template); ok && template != nil {
+			p.params = template.GetParamsInPlainText()
+			p.templateName = template.Name
+		}
 	}
 	return nil
 }
 
 // returns fields defined in templates.json if available
-func (p *Parser) getRequiredFields() (map[string]*fieldValue, error) {
+func (p *Parser) GetRequiredFields() (map[string]*FieldValue, error) {
 	elemList := p.root.GetElemList()
 	if len(elemList) != 1 {
 		return nil, fmt.Errorf("only support element list of length 1, but length=%d found", len(elemList))
 	}
 	p.mergeParams()
-	out := make(map[string]*fieldValue)
+	out := make(map[string]*FieldValue)
 	if template, ok := elemList[0].(*tree.Template); ok && template != nil {
 		if len(template.Name) > 0 {
 			expectedFields := templates.GetFieldsFromTemplate(template.Name)
 			for _, field := range expectedFields {
 				if field.Enabled {
-					if text, ok := p.params[field.En]; ok {
-						out[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
+					if text, ok := p.params[field.En]; ok && len(text) > 0 {
+						out[field.DisplayedText] = &FieldValue{Id: field.Id, Value: text}
 					}
-					if text, ok := p.params[field.Vi]; ok {
-						out[field.DisplayedText] = &fieldValue{id: field.Id, value: text}
+					if text, ok := p.params[field.Vi]; ok && len(text) > 0 {
+						out[field.DisplayedText] = &FieldValue{Id: field.Id, Value: text}
 					}
 				}
 			}
@@ -109,17 +113,16 @@ func (p *Parser) getRequiredFields() (map[string]*fieldValue, error) {
 }
 
 func (p *Parser) merge(from, to string) {
-	var textFrom string
-	var ok1, ok2 bool
-	textFrom, ok1 = p.params[from]
-	_, ok2 = p.params[to]
-	if (!ok1 && !ok2) || textFrom == "" {
+	textFrom := p.params[from]
+	if textFrom == "" {
 		return
 	}
 	if strings.HasSuffix(from, "_year") {
 		textFrom = "(" + textFrom + ")"
 	} else {
-		textFrom = ", " + textFrom
+		if p.params[to] != "" {
+			textFrom = ", " + textFrom
+		}
 	}
 	p.params[to] += textFrom
 }
@@ -132,18 +135,33 @@ func (p *Parser) mergeParams() {
 	p.merge("num_locations_year", "num_locations")
 	p.merge("num_employees_year", "num_employees")
 	p.merge("net_income_year", "net_income")
+	// location_country -> location_city -> location
 	p.merge("location_country", "location_city")
+	p.merge("location_city", "location")
+	// hq_location_country -> hq_location_city -> hq_location
 	p.merge("hq_location_country", "hq_location_city")
+	p.merge("hq_location_city", "hq_location")
 }
 
 func (p *Parser) getParams() map[string]string {
 	return p.params
 }
 
-func (p *Parser) printTokens() {
-	for _, token := range p.tokens {
-		fmt.Println(token.Token)
+func (p *Parser) GetFieldByKey(key string) string {
+	if val, ok := p.params[key]; ok {
+		return val
 	}
+	return ""
+}
+
+func (p *Parser) GetSubjectCategory() string {
+	return templates.GetSubjectCategoryFromTemplate(p.templateName)
+}
+
+func (p *Parser) writeLog() {
+	mu.Lock()
+	records[p.templateName] = append(records[p.templateName], (*infobox)(&p.params))
+	mu.Unlock()
 }
 
 // --

@@ -1,8 +1,8 @@
 package tree
 
 import (
+	"knowledge-graph/app/wikitext-parser/utils"
 	"strings"
-	"wikitext-parser/utils"
 )
 
 type Elem interface {
@@ -40,7 +40,9 @@ func (w *Wikicode) GetPlainText() (string, error) {
 }
 
 func (w *Wikicode) AddItem(e Elem) {
-	w.list = append(w.list, e)
+	if e != nil {
+		w.list = append(w.list, e)
+	}
 }
 
 func (w *Wikicode) GetElemList() []Elem {

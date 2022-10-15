@@ -13,8 +13,12 @@ var (
 		"cm":          "cm",
 		"centimetres": "cm",
 		"centimeter":  "cm",
-		"us$":         "đô la Mỹ",
-		"$":           "đô la Mỹ",
+		"us$":         "USD",
+		"$":           "USD",
+		"usd":         "USD",
+		"inrconvert":  "INR",
+		"yen":         "yên Nhật",
+		"cny":         "Nhân dân tệ",
 	}
 )
 
@@ -42,8 +46,12 @@ func NewTemplate() *Template {
 		"năm mất và tuổi":    nil,
 
 		// other dates
-		"start date and age": t.handleStartDateAndAge,
-		"as of":              t.handleAsOf,
+		"start date and age":           t.handleStartDateAndAge,
+		"ngày bắt đầu và tuổi":         t.handleStartDate,
+		"ngày bắt đầu và tuổi/sandbox": t.handleStartDate,
+		"năm bắt đầu và tuổi":          t.handleStartDate,
+		"start date":                   t.handleStartDate,
+		"as of":                        t.handleAsOf,
 
 		// List
 		"hlist":            t.handleHList,
@@ -70,10 +78,17 @@ func NewTemplate() *Template {
 		"nasdaq": t.handleTradedAs,
 		"lse":    t.handleTradedAs,
 		"fwb":    t.handleTradedAs,
+		"nse":    t.handleTradedAs,
+		"bse":    t.handleTradedAs,
+		"nyse":   t.handleTradedAs,
 
 		// currency
-		"us$": t.handleCurrency,
-		"$":   t.handleCurrency,
+		"us$":        t.handleCurrency,
+		"$":          t.handleCurrency,
+		"usd":        t.handleCurrency,
+		"inrconvert": t.handleCurrency,
+		"yen":        t.handleCurrency,
+		"cny":        t.handleCurrency,
 
 		// punctuation
 		"·":     t.handleDot,
@@ -86,6 +101,9 @@ func NewTemplate() *Template {
 }
 
 func (t *Template) GetPlainText() (string, error) {
+	if t == nil {
+		return "", nil
+	}
 	key := strings.ToLower(t.Name)
 	if f, ok := t.templateHandlers[key]; ok && f != nil {
 		return f()
@@ -126,7 +144,11 @@ func (t *Template) getDateFromYYMMDD() (string, error) {
 			}
 		}
 	}
-	return yymmdd[2] + "-" + yymmdd[1] + "-" + yymmdd[0], nil
+	date := yymmdd[2] + "-" + yymmdd[1]
+	date = strings.TrimPrefix(date, "-")
+	date += "-" + yymmdd[0]
+	date = strings.TrimPrefix(date, "-")
+	return date, nil
 }
 
 // {{Birth-date and age|1941}} → 1941 (age 81)
@@ -149,6 +171,11 @@ func (t *Template) handleStartDateAndAge() (string, error) {
 	return t.getDateFromYYMMDD()
 }
 
+// {{Start date|1994|1}}
+func (t *Template) handleStartDate() (string, error) {
+	return t.getDateFromYYMMDD()
+}
+
 func (t *Template) handleAsOf() (string, error) {
 	return t.getDateFromYYMMDD()
 }
@@ -168,7 +195,6 @@ func (t *Template) handleList() (string, error) {
 	return out, nil
 }
 
-// TODO: handle item order, eg. {{hlist|entry1|entry2|entry3}}
 func (t *Template) handleHList() (string, error) {
 	return t.handleCollapsibleList()
 }
@@ -252,6 +278,8 @@ func (t *Template) handleCurrency() (string, error) {
 	if err != nil {
 		return "", err
 	}
+	value = strings.ReplaceAll(value, "billion", "tỉ")
+	value = strings.ReplaceAll(value, "trillion", "nghìn tỉ")
 	if unit, ok := units[strings.ToLower(t.Name)]; ok {
 		return value + " " + unit, nil
 	}

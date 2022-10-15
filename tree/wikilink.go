@@ -19,6 +19,9 @@ func NewWikilink(wikiPage, displayedText string) *Wikilink {
 }
 
 func (w *Wikilink) GetPlainText() (string, error) {
+	if w == nil {
+		return "", nil
+	}
 	if len(w.displayedText) > 0 {
 		return w.displayedText, nil
 	}

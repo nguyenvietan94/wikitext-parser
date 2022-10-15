@@ -22,7 +22,19 @@ func TestTemplateGetPlainText(t *testing.T) {
 			Params: map[string]*Wikicode{
 				"1": {list: []Elem{NewText("1987")}}},
 		}: "1987",
-
+		{
+			Name: "start date",
+			Params: map[string]*Wikicode{
+				"1": {list: []Elem{NewText("1994")}},
+				"2": {list: []Elem{NewText("1")}}},
+		}: "1-1994",
+		// currency
+		{
+			Name: "inrconvert",
+			Params: map[string]*Wikicode{
+				"1": {list: []Elem{NewText("14203")}},
+				"2": {list: []Elem{NewText("c")}}},
+		}: "14203 INR",
 		// height
 		{
 			Name: "height",

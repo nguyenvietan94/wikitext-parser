@@ -24,8 +24,8 @@ var (
 		TagRefOpen1, TagClose,
 		TagBreak, TagBreak1, TagBreak2,
 		TagListItem,
-		TagGreaterThan, TagLessThan,
 		CommentStart, CommentEnd,
+		TagGreaterThan, TagLessThan,
 		Bold, Italic,
 		TextWithEscapes,
 	}

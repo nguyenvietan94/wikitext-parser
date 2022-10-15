@@ -3,14 +3,15 @@ package templates
 import (
 	"encoding/json"
 	"io/ioutil"
+	"knowledge-graph/app/wikitext-parser/utils"
 	"log"
 	"os"
-	"wikitext-parser/utils"
 )
 
 var (
-	mapTemplateName2Id   map[string]int
-	mapTemplateId2Fields map[int][]*field
+	mapTemplateName2Id            map[string]int
+	mapTemplateId2Fields          map[int][]*field
+	mapTemplateId2SubjectCategory map[int]string
 )
 
 type field struct {
@@ -22,19 +23,23 @@ type field struct {
 }
 
 type template struct {
-	EnLabel string   `json:"en-label"`
-	ViLabel string   `json:"vi-label"`
-	Fields  []*field `json:"fields"`
+	EnLabel         string   `json:"en-label"`
+	ViLabel         string   `json:"vi-label"`
+	SubjectCategory string   `json:"subject-category"`
+	Fields          []*field `json:"fields"`
 }
 
 type templates []template
 
-// TODO: read templates.json and build maps
+// read templates.json and build maps
 func init() {
 	mapTemplateName2Id = make(map[string]int)
 	mapTemplateId2Fields = make(map[int][]*field)
+	mapTemplateId2SubjectCategory = make(map[int]string)
 
-	jsonFile, err := os.Open("/home/annv/go/src/wikitext-parser0/templates/templates.json")
+	// TODO: modify the config file
+	// jsonFile, err := os.Open("app/wikitext-parser/templates/templates.json")
+	jsonFile, err := os.Open("/home/annv/go/src/knowledge-graph-demo/app/wikitext-parser/templates/templates.json")
 	if err != nil {
 		panic(err)
 	}
@@ -48,6 +53,7 @@ func init() {
 		mapTemplateName2Id[utils.PreprocessTemplateName(t.EnLabel)] = i
 		mapTemplateName2Id[utils.PreprocessTemplateName(t.ViLabel)] = i
 		mapTemplateId2Fields[i] = t.Fields
+		mapTemplateId2SubjectCategory[i] = t.SubjectCategory
 	}
 	log.Print("Loading templates.json done.")
 }
@@ -57,4 +63,11 @@ func GetFieldsFromTemplate(templateName string) []*field {
 		return mapTemplateId2Fields[fieldId]
 	}
 	return nil
+}
+
+func GetSubjectCategoryFromTemplate(templateName string) string {
+	if tempId, ok := mapTemplateName2Id[templateName]; ok {
+		return mapTemplateId2SubjectCategory[tempId]
+	}
+	return ""
 }
