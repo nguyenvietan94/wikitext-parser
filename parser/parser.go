@@ -2,12 +2,12 @@ package parser
 
 import (
 	"fmt"
-	"knowledge-graph/app/wikitext-parser/templates"
-	"knowledge-graph/app/wikitext-parser/tokenizer"
-	"knowledge-graph/app/wikitext-parser/tree"
-	"knowledge-graph/app/wikitext-parser/utils"
 	"strconv"
 	"strings"
+	"wikitext-parser/templates"
+	"wikitext-parser/tokenizer"
+	"wikitext-parser/tree"
+	"wikitext-parser/utils"
 )
 
 type fn func() tree.Elem
@@ -143,7 +143,7 @@ func (p *Parser) mergeParams() {
 	p.merge("hq_location_city", "hq_location")
 }
 
-func (p *Parser) getParams() map[string]string {
+func (p *Parser) GetParams() map[string]string {
 	return p.params
 }
 

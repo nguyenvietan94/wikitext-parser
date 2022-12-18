@@ -439,7 +439,7 @@ func TestExtractingInfoboxAsPlainText(t *testing.T) {
 		err := p.Parse()
 		assert.Equal(t, err, nil)
 		// p.printTokens()
-		params := p.getParams()
+		params := p.GetParams()
 		for key, val := range expected {
 			assert.Equal(t, params[key], val)
 		}

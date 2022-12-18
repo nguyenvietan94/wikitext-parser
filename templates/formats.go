@@ -3,9 +3,9 @@ package templates
 import (
 	"encoding/json"
 	"io/ioutil"
-	"knowledge-graph/app/wikitext-parser/utils"
 	"log"
 	"os"
+	"wikitext-parser/utils"
 )
 
 var (
@@ -37,9 +37,8 @@ func init() {
 	mapTemplateId2Fields = make(map[int][]*field)
 	mapTemplateId2SubjectCategory = make(map[int]string)
 
-	// TODO: modify the config file
-	// jsonFile, err := os.Open("app/wikitext-parser/templates/templates.json")
-	jsonFile, err := os.Open("/home/annv/go/src/knowledge-graph-demo/app/wikitext-parser/templates/templates.json")
+	// TODO: modify the path to templates.json
+	jsonFile, err := os.Open("/home/annv/go/src/wikitext-parser/templates/templates.json")
 	if err != nil {
 		panic(err)
 	}

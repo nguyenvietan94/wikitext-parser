@@ -1,8 +1,8 @@
 package tree
 
 import (
-	"knowledge-graph/app/wikitext-parser/utils"
 	"strings"
+	"wikitext-parser/utils"
 )
 
 type Elem interface {
